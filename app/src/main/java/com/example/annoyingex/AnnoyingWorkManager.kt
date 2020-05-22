@@ -16,7 +16,7 @@ class AnnoyingWorkManager(context: Context) {
             .setRequiresCharging(true)
             .build()
 
-        val workRequest = OneTimeWorkRequestBuilder<RepetitiveWorker>()
+        val workRequest = PeriodicWorkRequestBuilder<RepetitiveWorker>(20, TimeUnit.MINUTES)
             .setInitialDelay(5000, TimeUnit.MILLISECONDS)
             .setConstraints(constraints)
             .addTag(WORK_REQUEST_TAG)
