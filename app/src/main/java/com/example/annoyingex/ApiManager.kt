@@ -7,10 +7,11 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
+import kotlin.random.Random
 
 class ApiManager(context: Context) {
     private val queue: RequestQueue = Volley.newRequestQueue(context)
-    private lateinit var messages: Messages
+    private lateinit var allMessages: Messages
     private var result = "unable to retrieve message"
 
     fun fetchMessages() {
@@ -18,9 +19,11 @@ class ApiManager(context: Context) {
 
         val stringRequest = StringRequest ( Request.Method.GET, messageUrl, { response ->
             val gson = Gson()
-            messages = gson.fromJson(response, Messages::class.java)
-            result = messages.messages[0]
-            Log.i("jen", result)
+            allMessages = gson.fromJson(response, Messages::class.java)
+            val length = allMessages.messages.size
+            val random = Random.nextInt(length)
+            result = allMessages.messages[random]
+            Log.e("jen", "$result")
         },
             {error ->
                 Log.e("jen", "$error")
